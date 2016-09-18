@@ -23,7 +23,7 @@
   <script>
     var socket = io();
     socket.on('say', function(msg){
-      console.log("LABEL: " + msg);
+      console.log("LABEL: " + msg.label);
     });
   </script>
   <script src="js/main.js"></script>

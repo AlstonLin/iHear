@@ -5,7 +5,7 @@ var express = require("express");
 var app = express();
 var path = require("path");
 var bodyParser = require('body-parser');
-var PORT = 8080;
+var PORT = 80;
 
 var previousSymbol = -1;
 
@@ -70,7 +70,7 @@ app.post("/entry", jsonParser, function(req, res){
       if (probability > THRESHOLD && label != previousSymbol){
         previousSymbol = label;
         console.log("Saying label " + label);
-        io.emit('say', label);
+        io.emit('say', { label: parseInt(label) });
       }
     }
   });
@@ -84,4 +84,5 @@ var server = app.listen(PORT, function(){
 // Socket io
 var io = require('socket.io')(server);
 io.on('connection', function(socket){
+  console.log("NEW CONNECTION!");
 });
