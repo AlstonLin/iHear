@@ -1,10 +1,13 @@
 var NUM_CLASSES = 7;
+var THRESHOLD = 0.995;
 var request = require("request");
 var express = require("express");
 var app = express();
 var path = require("path");
 var bodyParser = require('body-parser');
 var PORT = 8080;
+
+var previousSymbol = -1;
 
 var API_PATH = "https://ussouthcentral.services.azureml.net/workspaces/4fca6d68dfcb441da2822b12932931a9/services/60afbbe5138b43aba5da36412e5dacc1/execute?api-version=2.0&details=true";
 var API_TOKEN ="lhkDRaI02faeW5ubz3gASH8beeAc+BrRTCZwIiApRpyMObXr3lp9C+0Z+Ko34T9HsLnSwH6H7eiFuj6krgNFew==";
@@ -43,7 +46,6 @@ app.post("/entry", jsonParser, function(req, res){
     },
     "GlobalParameters": {}
   };
-  console.log("REQUEST!")
   request.post({
     url: API_PATH,
     headers: {
@@ -63,8 +65,12 @@ app.post("/entry", jsonParser, function(req, res){
       for (var i = values.length - 2; i > values.length - NUM_CLASSES - 3; i--){
         probabilities.unshift(values[i]);
       }
-      console.log("LABEL: " + label + " with probability " + probabilities[label]);
-      // console.log("PROBABILITIES: " + JSON.stringify(probabilities));
+
+      var probability = probabilities[label];
+      if (probability > THRESHOLD && label != previousSymbol){
+        previousSymbol = label;
+        console.log("Saying label " + label);
+      }
     }
   });
   res.end();

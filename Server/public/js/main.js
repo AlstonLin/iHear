@@ -1,7 +1,7 @@
 // Variables
 var WAITING_TIME = 5000;
 var TRAINING_TIME = 10000;
-var TIME_BETWEEN_PREDICT_REQUESTS = 500;
+var TIME_BETWEEN_PREDICT_REQUESTS = 1000;
 
 var lastPredictRequest = -1;
 var training = false;
