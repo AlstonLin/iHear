@@ -86,3 +86,23 @@ var io = require('socket.io')(server);
 io.on('connection', function(socket){
   console.log("NEW CONNECTION!");
 });
+
+// UDP stuff
+
+var server = require("net").createServer();
+var HOST = '45.79.129.160';
+
+var dgram = require('dgram');
+var udpserver = dgram.createSocket('udp4');
+
+udpserver.on('listening', function () {
+    var address = udpserver.address();
+    console.log('UDP Server listening on ' + address.address + ":" + address.port);
+});
+
+udpserver.on('message', function (message, remote) { // arduino sent us a message via UDP
+    console.log(remote.address + ':' + remote.port +' - ' + message);
+    io.emit('sound', JSON.stringify({dir: message}));
+});
+
+udpserver.bind(PORT, HOST);
