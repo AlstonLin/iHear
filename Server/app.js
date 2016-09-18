@@ -1,5 +1,5 @@
 var NUM_CLASSES = 7;
-var THRESHOLD = 0.995;
+var THRESHOLD = 0.998;
 var request = require("request");
 var express = require("express");
 var app = express();
@@ -70,12 +70,18 @@ app.post("/entry", jsonParser, function(req, res){
       if (probability > THRESHOLD && label != previousSymbol){
         previousSymbol = label;
         console.log("Saying label " + label);
+        io.emit('say', label);
       }
     }
   });
   res.end();
 });
 
-app.listen(PORT, function(){
+var server = app.listen(PORT, function(){
   console.log("Listening on port " + PORT);
+});
+
+// Socket io
+var io = require('socket.io')(server);
+io.on('connection', function(socket){
 });
