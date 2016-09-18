@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/AlstonLin/iHear#readme",
   "dependencies": {
-    "express": "^4.14.0"
+    "express": "^4.14.0",
+    "leapjs": "^0.6.4"
   }
 }

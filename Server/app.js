@@ -1,8 +1,12 @@
 var express = require("express");
 var app = express();
-var PORT = 80;
+var path = require("path");
+var PORT = 8080;
+
+app.use(express.static('public'));
+
 app.get("/", function(req, res){
-  res.send("Hello World!");
+  res.sendFile(path.join(__dirname, "/index.html"));
 });
 
 app.listen(PORT, function(){
